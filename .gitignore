@@ -1,0 +1,26 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+data
+__A Proactive Insider Threat Prevention System using Dynamic Behavioral Analytics and Automated Risk Mitigation.pdf
+implementation_status.md
+context.md
+Reference.md
+cert_r4.2
+COMPREHENSIVE_DOCUMENTATION.md
+main.py
+01_generate_datasets.ipynb
+dask
+.ruff_cache 
+datasets 
+
+
+
+

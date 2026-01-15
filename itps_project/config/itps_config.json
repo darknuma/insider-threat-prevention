@@ -1,0 +1,27 @@
+cl{
+  "system": {
+    "sequence_length": 20,
+    "detection_interval": 1.0,
+    "dashboard_update_interval": 5,
+    "model_retrain_interval": 3600
+  },
+  "detection": {
+    "confidence_threshold": 0.75,
+    "threat_levels": {
+      "LOW": 0.6,
+      "MEDIUM": 0.75,
+      "HIGH": 0.85,
+      "CRITICAL": 0.95
+    }
+  },
+  "alerts": {
+    "enabled": true,
+    "escalation_threshold": 5,
+    "notification_methods": ["console", "email", "webhook"]
+  },
+  "dashboard": {
+    "enabled": true,
+    "web_dashboard": false,
+    "port": 5000
+  }
+}

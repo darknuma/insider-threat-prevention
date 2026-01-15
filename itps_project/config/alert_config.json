@@ -1,0 +1,30 @@
+{
+  "alert_thresholds": {
+    "LOW": 0.6,
+    "MEDIUM": 0.75,
+    "HIGH": 0.85,
+    "CRITICAL": 0.95
+  },
+  "escalation_rules": {
+    "max_alerts_per_user": 5,
+    "escalation_time_minutes": 30
+  },
+  "notifications": {
+    "email": {
+      "enabled": false,
+      "smtp_server": "smtp.gmail.com",
+      "smtp_port": 587,
+      "username": "",
+      "password": "",
+      "recipients": []
+    },
+    "webhook": {
+      "enabled": false,
+      "url": "",
+      "headers": {}
+    },
+    "console": {
+      "enabled": true
+    }
+  }
+}

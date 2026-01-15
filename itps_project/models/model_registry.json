@@ -1,0 +1,48 @@
+[
+  {
+    "name": "itps_production_model",
+    "version": 1,
+    "timestamp": "2025-10-25T17:25:48.720466",
+    "model_params": {
+      "n_estimators": 100,
+      "max_depth": 10,
+      "random_state": 42,
+      "class_weight": "balanced"
+    },
+    "accuracy": 0.505,
+    "classification_report": {
+      "0": {
+        "precision": 0.5,
+        "recall": 0.494949494949495,
+        "f1-score": 0.49746192893401014,
+        "support": 99.0
+      },
+      "1": {
+        "precision": 0.5098039215686274,
+        "recall": 0.5148514851485149,
+        "f1-score": 0.5123152709359606,
+        "support": 101.0
+      },
+      "accuracy": 0.505,
+      "macro avg": {
+        "precision": 0.5049019607843137,
+        "recall": 0.504900490049005,
+        "f1-score": 0.5048885999349854,
+        "support": 200.0
+      },
+      "weighted avg": {
+        "precision": 0.5049509803921568,
+        "recall": 0.505,
+        "f1-score": 0.5049628666449951,
+        "support": 200.0
+      }
+    },
+    "feature_count": 640,
+    "training_samples": 800,
+    "test_samples": 200,
+    "class_distribution": {
+      "malicious": 494,
+      "benign": 506
+    }
+  }
+]
