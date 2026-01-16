@@ -20,6 +20,7 @@ main.py
 dask
 .ruff_cache 
 datasets 
+../.DS_Store
 
 
 

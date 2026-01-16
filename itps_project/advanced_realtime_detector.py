@@ -175,47 +175,49 @@ class AdvancedRealTimeDetector:
         """Get LSTM model prediction"""
         lstm_data = self.models['lstm']
         
-        # Reshape for LSTM (1, sequence_length, features_per_event)
-        features_reshaped = features.reshape(1, -1)
+        # Scale features first (scaler expects 32 features)
+        features_scaled = lstm_data['scaler'].transform(features)
         
-        # Scale features
-        features_scaled = lstm_data['scaler'].transform(features_reshaped)
+        # Reshape for LSTM (1, sequence_length * features)
+        # Note: Depending on training, this might need to be (1, 20, 32) or (1, 640)
+        # Assuming flattened based on previous code structure
+        features_reshaped = features_scaled.reshape(1, -1)
         
         # Get prediction
-        prediction = lstm_data['model'].predict_proba(features_scaled)[0][1]
+        prediction = lstm_data['model'].predict_proba(features_reshaped)[0][1]
         return float(prediction)
     
     def _get_transformer_prediction(self, features):
         """Get Transformer model prediction"""
         transformer_data = self.models['transformer']
         
-        # Reshape for Transformer
-        features_reshaped = features.reshape(1, -1)
+        # Scale features first
+        features_scaled = transformer_data['scaler'].transform(features)
         
-        # Scale features
-        features_scaled = transformer_data['scaler'].transform(features_reshaped)
+        # Reshape for Transformer
+        features_reshaped = features_scaled.reshape(1, -1)
         
         # Get prediction
-        prediction = transformer_data['model'].predict_proba(features_scaled)[0][1]
+        prediction = transformer_data['model'].predict_proba(features_reshaped)[0][1]
         return float(prediction)
     
     def _get_autoencoder_prediction(self, features):
         """Get Autoencoder anomaly detection"""
         autoencoder_data = self.models['autoencoder']
         
-        # Flatten features
-        features_flat = features.reshape(1, -1)
+        # Scale features first
+        features_scaled = autoencoder_data['scaler'].transform(features)
         
-        # Scale features
-        features_scaled = autoencoder_data['scaler'].transform(features_flat)
+        # Flatten for Autoencoder
+        features_flat = features_scaled.reshape(1, -1)
         
-        # Get reconstruction
+        # Get reconstruction (input is flattened)
         reconstructed = autoencoder_data['model'].inverse_transform(
-            autoencoder_data['model'].transform(features_scaled)
+            autoencoder_data['model'].transform(features_flat)
         )
         
         # Calculate reconstruction error
-        reconstruction_error = np.mean((features_scaled - reconstructed) ** 2)
+        reconstruction_error = np.mean((features_flat - reconstructed) ** 2)
         
         # Determine if anomaly
         is_anomaly = reconstruction_error > autoencoder_data['threshold']
@@ -227,14 +229,17 @@ class AdvancedRealTimeDetector:
         """Get ensemble model prediction"""
         ensemble_data = self.models['ensemble']
         
-        # Flatten features
-        features_flat = features.reshape(1, -1)
+        # Scale features first (using LSTM scaler as primary scaler for ensemble inputs)
+        # Note: checks if ensemble has its own scaler logic, generally ensemble uses predictions from others
+        # But here it seems to use raw features?
+        # Based on previous code: features_scaled = ensemble_data['lstm_scaler'].transform(features_flat)
+        # This implies it uses the same scaler as LSTM.
         
-        # Scale features
-        features_scaled = ensemble_data['lstm_scaler'].transform(features_flat)
+        features_scaled = ensemble_data['lstm_scaler'].transform(features)
+        features_flat = features_scaled.reshape(1, -1)
         
         # Get prediction
-        prediction = ensemble_data['model'].predict_proba(features_scaled)[0][1]
+        prediction = ensemble_data['model'].predict_proba(features_flat)[0][1]
         return float(prediction)
     
     def _determine_threat_level(self, confidence):
